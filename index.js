@@ -24,7 +24,7 @@ const databaseURL = process.env.DATABASE_URL
 
 app.use(
   cors({
-    origin: process.env.ORIGIN,
+    origin: 'https://zapcart.netlify.app',
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
