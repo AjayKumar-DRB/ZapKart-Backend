@@ -71,9 +71,9 @@ export const loginUser = async (req, res) => {
   // Set cookie to expire in 1 day (1 day in milliseconds = 24 * 60 * 60 * 1000)
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Use secure flag in production
+    secure: true, // Use secure flag in production
     maxAge: 24 * 60 * 60 * 1000, // 1 day
-    sameSite: 'Lax',
+    sameSite: "None",
   }).json({
     success: true,
     message: "Logged in successfully",
