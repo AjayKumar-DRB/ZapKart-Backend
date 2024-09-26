@@ -24,7 +24,7 @@ const databaseURL = 'mongodb+srv://ajaykumardrb:BXFljrgrnMqGDVRj@goldratecalcula
 
 app.use(
   cors({
-    origin: 'https://zapcart.netlify.app',
+    origin: "https://zapcart.netlify.app",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
