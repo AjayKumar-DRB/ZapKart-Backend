@@ -57,27 +57,32 @@ export const loginUser = async (req, res) => {
         message: "Incorrect password! Please try again",
       });
 
-    const token = jwt.sign(
-      {
-        id: checkUser._id,
-        role: checkUser.role,
-        email: checkUser.email,
-        userName: checkUser.userName,
-      },
-      "CLIENT_SECRET_KEY",
-      { expiresIn: "60m" }
-    );
-
-    res.cookie("token", token, { httpOnly: true, secure: false }).json({
-      success: true,
-      message: "Logged in successfully",
-      user: {
-        email: checkUser.email,
-        role: checkUser.role,
-        id: checkUser._id,
-        userName: checkUser.userName,
-      },
-    });
+  const token = jwt.sign(
+    {
+      id: checkUser._id,
+      role: checkUser.role,
+      email: checkUser.email,
+      userName: checkUser.userName,
+    },
+    "CLIENT_SECRET_KEY",
+    { expiresIn: "1d" }
+  );
+  
+  // Set cookie to expire in 1 day (1 day in milliseconds = 24 * 60 * 60 * 1000)
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // Use secure flag in production
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+  }).json({
+    success: true,
+    message: "Logged in successfully",
+    user: {
+      email: checkUser.email,
+      role: checkUser.role,
+      id: checkUser._id,
+      userName: checkUser.userName,
+    },
+  });
   } catch (e) {
     console.log(e);
     res.status(500).json({
