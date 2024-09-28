@@ -69,20 +69,23 @@ export const loginUser = async (req, res) => {
   );
   
   // Set cookie to expire in 1 day (1 day in milliseconds = 24 * 60 * 60 * 1000)
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: true, // Use secure flag in production
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-    sameSite: "None",
-  }).json({
-    success: true,
-    message: "Logged in successfully",
-    user: {
-      email: checkUser.email,
-      role: checkUser.role,
-      id: checkUser._id,
-      userName: checkUser.userName,
-    },
+ // Login function (setting the cookie)
+res.cookie("token", token, {
+  httpOnly: true,
+  secure: true, // Use secure since you're using HTTPS in production
+  maxAge: 24 * 60 * 60 * 1000, // 1 day
+  sameSite: "None", // Required for cross-domain cookies
+  domain: ".netlify.app", // Use the parent domain of your frontend
+  path: "/", // Ensure path is '/' to cover the entire domain
+}).json({
+  success: true,
+  message: "Logged in successfully",
+  user: {
+    email: checkUser.email,
+    role: checkUser.role,
+    id: checkUser._id,
+    userName: checkUser.userName,
+  },
   });
   } catch (e) {
     console.log(e);
@@ -94,16 +97,19 @@ export const loginUser = async (req, res) => {
 };
 
 //logout
-
 export const logoutUser = (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: "None"
+    secure: true, // Matches how the cookie was set
+    sameSite: "None", // Matches the SameSite policy
+    domain: ".netlify.app", // Matches the domain where the cookie was set
+    path: "/", // Ensure path is '/' to clear across the domain
   }).json({
     success: true,
     message: "Logged out successfully!",
   });
 };
+
 
 //auth middleware
 export const authMiddleware = async (req, res, next) => {
