@@ -75,7 +75,7 @@ res.cookie("token", token, {
   secure: true, // Use secure since you're using HTTPS in production
   maxAge: 24 * 60 * 60 * 1000, // 1 day
   sameSite: "None", // Required for cross-domain cookies
-  domain: "zapcart.netlify.app", // Use the parent domain of your frontend
+  domain: ".netlify.app", // Use the parent domain of your frontend
   path: "/", // Ensure path is '/' to cover the entire domain
 }).json({
   success: true,
@@ -102,7 +102,7 @@ export const logoutUser = (req, res) => {
     httpOnly: true,
     secure: true, // Matches how the cookie was set
     sameSite: "None", // Matches the SameSite policy
-    domain: "zapcart.netlify.app", // Matches the domain where the cookie was set
+    domain: ".netlify.app", // Matches the domain where the cookie was set
     path: "/", // Ensure path is '/' to clear across the domain
   }).json({
     success: true,
